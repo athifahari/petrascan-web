@@ -17,53 +17,64 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // ===== MOBILE MENU TOGGLE =====
-const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-const navLinks = document.querySelector('.nav-links');
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const navLinks = document.getElementById('navLinks');
+const menuOverlay = document.getElementById('menuOverlay');
+const menuIcon = mobileMenuBtn.querySelector('i');
 
-if (mobileMenuBtn) {
-    mobileMenuBtn.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        
-        // Animasi toggle button
-        if (navLinks.classList.contains('active')) {
-            mobileMenuBtn.textContent = '✕';
-        } else {
-            mobileMenuBtn.textContent = '☰';
-        }
-    });
-
-    // Close menu when clicking on a link
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-            mobileMenuBtn.textContent = '☰';
-        });
-    });
+function toggleMenu() {
+    // Toggle class 'active' untuk menampilkan/menyembunyikan menu dan overlay
+    navLinks.classList.toggle('active');
+    menuOverlay.classList.toggle('active');
+    
+    // Toggle icon fa-bars (tiga garis) dan fa-times (silang)
+    if (navLinks.classList.contains('active')) {
+        menuIcon.classList.remove('fa-bars');
+        menuIcon.classList.add('fa-times');
+    } else {
+        menuIcon.classList.remove('fa-times');
+        menuIcon.classList.add('fa-bars');
+    }
 }
 
-// ===== NAVBAR SCROLL EFFECT =====
-let lastScroll = 0;
-const nav = document.querySelector('nav');
+// Event listener untuk tombol menu
+if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', toggleMenu);
+}
 
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    // Add shadow on scroll
-    if (currentScroll > 50) {
-        nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
-    } else {
-        nav.style.boxShadow = '0 4px 16px rgba(0,0,0,0.12)';
-    }
-    
-    // Hide/Show navbar on scroll
-    if (currentScroll > lastScroll && currentScroll > 100) {
-        nav.style.transform = 'translateY(-100%)';
-    } else {
-        nav.style.transform = 'translateY(0)';
-    }
-    
-    lastScroll = currentScroll;
+// Event listener untuk overlay (menutup menu jika mengklik di luar area menu)
+if (menuOverlay) {
+    menuOverlay.addEventListener('click', toggleMenu);
+}
+
+// Close menu when clicking on a link
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        // Hanya tutup menu jika di tampilan mobile (lebar <= 968px)
+        if (window.innerWidth <= 968 && navLinks.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
 });
+
+// ===== SMOOTH SCROLLING (Diambil dari kode Anda) =====
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        
+        if (target) {
+            const navHeight = document.querySelector('nav').offsetHeight;
+            const targetPosition = target.offsetTop - navHeight;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
 
 // ===== SCROLL ANIMATION =====
 const observerOptions = {
@@ -313,87 +324,6 @@ document.querySelectorAll('.stat-card').forEach(card => {
     statsObserver.observe(card);
 });
 
-// ===== FORM VALIDATION =====
-const formInputs = document.querySelectorAll('.form-group input, .form-group textarea, .form-group select');
-
-formInputs.forEach(input => {
-    // Real-time validation
-    input.addEventListener('blur', function() {
-        validateField(this);
-    });
-    
-    input.addEventListener('input', function() {
-        if (this.classList.contains('invalid')) {
-            validateField(this);
-        }
-    });
-});
-
-function validateField(field) {
-    const value = field.value.trim();
-    let isValid = true;
-    let errorMessage = '';
-    
-    // Required field check
-    if (field.hasAttribute('required') && value === '') {
-        isValid = false;
-        errorMessage = 'Field ini wajib diisi';
-    }
-    
-    // Email validation
-    if (field.type === 'email' && value !== '') {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) {
-            isValid = false;
-            errorMessage = 'Format email tidak valid';
-        }
-    }
-    
-    // Phone validation (Indonesian format)
-    if (field.type === 'tel' && value !== '') {
-        const phoneRegex = /^(\+62|62|0)[0-9]{9,12}$/;
-        if (!phoneRegex.test(value.replace(/\s/g, ''))) {
-            isValid = false;
-            errorMessage = 'Format nomor telepon tidak valid';
-        }
-    }
-    
-    // Show/hide error
-    removeFieldError(field);
-    if (!isValid) {
-        showFieldError(field, errorMessage);
-    }
-    
-    return isValid;
-}
-
-function showFieldError(field, message) {
-    field.classList.add('invalid');
-    field.style.borderColor = '#FF6B35';
-    
-    // Create error message
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'field-error';
-    errorDiv.style.cssText = `
-        color: #FF6B35;
-        font-size: 0.85rem;
-        margin-top: 0.3rem;
-        animation: fadeInUp 0.3s ease;
-    `;
-    errorDiv.textContent = message;
-    
-    field.parentElement.appendChild(errorDiv);
-}
-
-function removeFieldError(field) {
-    field.classList.remove('invalid');
-    field.style.borderColor = '';
-    
-    const errorDiv = field.parentElement.querySelector('.field-error');
-    if (errorDiv) {
-        errorDiv.remove();
-    }
-}
 
 // ===== SCROLL TO TOP BUTTON =====
 const scrollTopBtn = document.createElement('button');
@@ -506,16 +436,6 @@ console.log('%c🔬 PetraScan', 'font-size: 24px; font-weight: bold; color: #FF6
 console.log('%cBiosensor Multiparameter untuk Deteksi Dini Mastitis', 'font-size: 14px; color: #2A9D4E;');
 console.log('%c© 2025 PetraScan. All rights reserved.', 'font-size: 12px; color: #6C757D;');
 
-// ===== PREVENT RIGHT CLICK ON IMAGES (Optional) =====
-// Uncomment if you want to protect images
-/*
-document.querySelectorAll('img').forEach(img => {
-    img.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        showNotification('Gambar dilindungi hak cipta', 'warning');
-    });
-});
-*/
 
 // ===== EASTER EGG =====
 let clickCount = 0;

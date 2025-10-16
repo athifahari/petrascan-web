@@ -57,7 +57,7 @@ nav {
     top: 0;
     z-index: 1000;
     box-shadow: var(--shadow-md);
-    backdrop-filter: blur(10px);
+    transition: var(--transition);
 }
 
 nav .container {
@@ -67,7 +67,7 @@ nav .container {
 }
 
 .logo {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: white;
     display: flex;
@@ -75,16 +75,7 @@ nav .container {
     gap: 0.5rem;
     cursor: pointer;
     transition: var(--transition);
-}
-
-.logo img {
-    width: 40px;      /* atur ukuran logo */
-    height: auto;
-    margin-right: 8px; /* kasih jarak dengan tulisan */
-}
-
-.logo:hover {
-    transform: scale(1.05);
+    z-index: 1001;
 }
 
 .logo span {
@@ -95,6 +86,7 @@ nav .container {
     display: flex;
     list-style: none;
     gap: 0.5rem;
+    transition: var(--transition);
 }
 
 .nav-links a {
@@ -107,24 +99,8 @@ nav .container {
     position: relative;
 }
 
-.nav-links a::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: var(--primary-orange);
-    transition: var(--transition);
-    transform: translateX(-50%);
-}
-
 .nav-links a:hover {
     background: rgba(255,255,255,0.15);
-}
-
-.nav-links a:hover::before {
-    width: 80%;
 }
 
 .mobile-menu-btn {
@@ -134,6 +110,8 @@ nav .container {
     color: white;
     font-size: 1.8rem;
     cursor: pointer;
+    z-index: 1001;
+    padding: 0.5rem;
 }
 
 /* ===== HERO SECTION ===== */
