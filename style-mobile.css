@@ -1,0 +1,162 @@
+
+
+/* ======================================= */
+/* MEDIA QUERY: MAX-WIDTH 992px (Tablet) */
+/* ======================================= */
+@media (max-width: 992px) {
+    .container {
+        padding: 0 1.5rem; /* Menjamin ada padding horizontal */
+    }
+
+    /* NAVIGASI */
+    .nav-links {
+        /* Properti ini diatur di style.css, tetapi pastikan di sini untuk mencegah konflik */
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px; /* Sesuaikan dengan tinggi navbar */
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-white); /* Atau warna yang sesuai */
+        box-shadow: var(--shadow-md);
+        z-index: 1000;
+        padding: 1rem 0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li a {
+        padding: 10px 1.5rem;
+        width: 100%;
+        display: block;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .nav-links li:last-child a {
+        border-bottom: none;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    /* HERO SECTION */
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+
+    /* TEKNOLOGI & FITUR */
+    .tech-grid {
+        grid-template-columns: 1fr; /* Tumpuk kartu fitur */
+    }
+    
+    .tech-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .tech-icon-container {
+        margin: 0 auto 1rem;
+    }
+
+    /* CARA PENGGUNAAN & MANFAAT */
+    .how-to-use-content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .how-to-steps {
+        width: 100%;
+        padding-right: 0;
+        border-right: none;
+    }
+    
+    .how-to-image {
+        width: 100%;
+        order: -1; /* Pindahkan gambar ke atas */
+    }
+    
+    .benefits-grid {
+        grid-template-columns: 1fr; /* Tumpuk manfaat */
+    }
+
+    /* TIM */
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr); /* Tetap 2 kolom jika memungkinkan */
+    }
+    
+    /* STATISTIK */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* FOOTER */
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr); /* Ubah menjadi 2 kolom */
+    }
+    
+    .footer-section:nth-child(3),
+    .footer-section:nth-child(4) {
+        grid-column: span 1;
+    }
+}
+
+/* ======================================= */
+/* MEDIA QUERY: MAX-WIDTH 768px (Mobile) */
+/* ======================================= */
+@media (max-width: 768px) {
+    /* HERO SECTION */
+    .hero-content h1 {
+        font-size: 2.2rem;
+        line-height: 1.2;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    /* TIM */
+    .team-grid {
+        grid-template-columns: 1fr; /* Tumpuk menjadi 1 kolom */
+    }
+    
+    .team-member-card {
+        padding: 1.5rem;
+    }
+
+    /* STATISTIK */
+    .stats-grid {
+        grid-template-columns: 1fr; /* Tumpuk menjadi 1 kolom */
+    }
+    
+    /* FOOTER */
+    .footer-content {
+        grid-template-columns: 1fr; /* Tumpuk menjadi 1 kolom */
+    }
+    
+    .footer-bottom {
+        text-align: center;
+    }
+}
+
+/* ======================================= */
+/* MEDIA QUERY: MAX-WIDTH 576px (Small Mobile) */
+/* ======================================= */
+@media (max-width: 576px) {
+    .cta-buttons .cta-button {
+        display: block;
+        margin-bottom: 0.5rem;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .cta-buttons .cta-button:first-child {
+        margin-right: 0;
+    }
+}
