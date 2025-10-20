@@ -72,7 +72,6 @@ nav .container {
     color: white;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
     cursor: pointer;
     transition: var(--transition);
     z-index: 1001;
@@ -81,6 +80,13 @@ nav .container {
 .logo span {
     color: var(--primary-orange);
 }
+.logo img {
+    width: 40px;       /* batas ukuran logo */
+    height: 40px;      /* agar seimbang */
+    object-fit: contain;
+    margin-right: 8px; /* jarak antara logo dan tulisan */
+}
+
 
 .nav-links {
     display: flex;
