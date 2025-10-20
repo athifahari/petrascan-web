@@ -57,23 +57,29 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     });
 });
 
-// ===== SMOOTH SCROLLING (Diambil dari kode Anda) =====
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        
-        if (target) {
-            const navHeight = document.querySelector('nav').offsetHeight;
-            const targetPosition = target.offsetTop - navHeight;
-            
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        }
+// ===== FIXED SMOOTH SCROLL =====
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener("click", e => {
+      const href = link.getAttribute("href");
+      if (!href || href === "#") return;
+
+      const target = document.querySelector(href);
+      if (!target) return;
+
+      e.preventDefault();
+      const nav = document.querySelector("nav");
+      const navHeight = nav ? nav.offsetHeight : 0;
+      const offsetTop = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: offsetTop,
+        behavior: "smooth"
+      });
     });
+  });
 });
+
 
 
 // ===== SCROLL ANIMATION =====
@@ -436,20 +442,6 @@ console.log('%c🔬 PetraScan', 'font-size: 24px; font-weight: bold; color: #FF6
 console.log('%cBiosensor Multiparameter untuk Deteksi Dini Mastitis', 'font-size: 14px; color: #2A9D4E;');
 console.log('%c© 2025 PetraScan. All rights reserved.', 'font-size: 12px; color: #6C757D;');
 
-
-// ===== EASTER EGG =====
-let clickCount = 0;
-const logo = document.querySelector('.logo');
-
-if (logo) {
-    logo.addEventListener('click', () => {
-        clickCount++;
-        if (clickCount === 5) {
-            showNotification('🎉 Selamat! Anda menemukan Easter Egg! Terima kasih telah mengeksplorasi PetraScan!', 'success');
-            clickCount = 0;
-        }
-    });
-}
 
 // ===== PRINT STYLES =====
 const printStyles = document.createElement('style');
